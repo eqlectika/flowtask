@@ -1,0 +1,8 @@
+name: AI Worker
+on: [workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello World
+        run: echo "Движок инициализирован"
