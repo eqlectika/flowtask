@@ -1,0 +1,11 @@
+name: Game Engine
+on: [workflow_dispatch]
+jobs:
+  run-step:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Process
+        env:
+          API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: echo "Движок готов"
