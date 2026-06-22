@@ -1,13 +1,23 @@
-on:
-  repository_dispatch:
-    types: [run_ai]
-
+name: AI Worker
+on: [workflow_dispatch]
 jobs:
-  run-ai-task:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v3
-      - name: Запуск AI
+      - uses: actions/checkout@v4 # Обновили версию до v4 (уберет предупреждение)
+      
+      - name: Ask Gemini and Save
         env:
-          API_KEY: ${{ secrets.API_KEY }}
-        run: bash scripts/call_gemini.sh "${{ github.event.client_payload.prompt }}"
+          API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          # Выполняем запрос и сохраняем ответ в файл
+          curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$API_KEY" \
+            -H 'Content-Type: application/json' \
+            -X POST \
+            -d '{"contents": [{"parts":[{"text": "Напиши только Swift код для App Intent: Hello World."}]}]}' > raw_response.json
+          
+          # Показываем содержимое ответа, чтобы мы увидели, что пришло
+          echo "Ответ от Gemini:"
+          cat raw_response.json
