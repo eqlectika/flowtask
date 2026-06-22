@@ -2,7 +2,7 @@
   "name": "FlowTask Control",
   "short_name": "FlowTask",
 
-"start_url": "./index.html"
+"start_url": "./index.html",
 
   "display": "standalone",
   "background_color": "#121212",
