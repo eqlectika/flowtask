@@ -27,14 +27,11 @@
     <h1>FlowTask</h1>
     <textarea id="prompt" placeholder="Введите задачу..."></textarea>
     
-    <div class="mode-container">
-        <label for="taskMode">Режим выполнения:</label>
         <select id="taskMode">
+            <option value="run_ai">Только AI (Быстрый ответ / AI Worker)</option>
             <option value="run_test_build">Тестовая сборка iOS (Без подписи / Simulator)</option>
-            <option value="run_ai">Только ИИ (Быстрый ответ / AI Worker)</option>
-            <option value="run_ai_deploy">ИИ + Сборка и Деплой iOS (Full Deploy)</option>
+            <option value="run_ai_deploy">AI + Сборка и Деплой iOS (Full Deploy)</option>
         </select>
-    </div>
 
     <button onclick="triggerTask()">Запустить задачу</button>
     
