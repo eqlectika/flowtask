@@ -1,5 +1,7 @@
 name: Game Engine
-on: [workflow_dispatch]
+on:
+  repository_dispatch:
+    types: [run_game]
 jobs:
   run-step:
     runs-on: ubuntu-latest
@@ -10,5 +12,6 @@ jobs:
           API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           chmod +x scripts/call_gemini.sh
-          ./scripts/call_gemini.sh "Напиши базовую структуру Swift-файла для приложения с App Intents" > output.json
+          # Берет текст, который вы ввели на сайте
+          ./scripts/call_gemini.sh "${{ github.event.client_payload.prompt }}" > output.json
           cat output.json
