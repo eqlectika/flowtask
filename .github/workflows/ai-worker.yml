@@ -13,8 +13,9 @@ jobs:
       - name: Ask Gemini and Save
         env:
           API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # Добавьте ваш токен сюда, если скрипту нужно пушить изменения
+          GH_PAT: ${{ secrets.GH_TOKEN_PAT }} 
         run: |
-          # Используем текст из вашего запроса (client_payload.prompt)
           PROMPT="${{ github.event.client_payload.prompt }}"
           
           curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$API_KEY" \
