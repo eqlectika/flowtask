@@ -13,7 +13,30 @@
         body { font-family: -apple-system, sans-serif; background: #121212; color: #fff; padding: 10px; margin: 0; }
         h1 { font-size: 1.2rem; color: #007AFF; }
         textarea { width: 100%; height: 120px; background: #1e1e1e; border: 1px solid #333; color: #fff; border-radius: 10px; padding: 15px; box-sizing: border-box; font-size: 16px; }
-        
+
+    .header-container {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Отступ между логотипом и текстом */
+        margin-bottom: 15px;
+    }
+    
+    .logo-link {
+        display: block;
+        text-decoration: none;
+    }
+    .logo-img {
+        width: 44px;
+        height: auto;
+        display: block;
+    }
+    
+    h1 { 
+        font-size: 1.2rem; 
+        color: #007AFF; 
+        margin: 0; /* Убираем стандартные отступы h1 */
+    }
+
         /* Стили для селектора режимов */
         .mode-container { margin: 15px 0; background: #1e1e1e; padding: 10px; border-radius: 10px; border: 1px solid #333; }
         .mode-container label { display: block; margin-bottom: 5px; font-size: 14px; color: #aaa; }
@@ -24,7 +47,12 @@
     </style>
 </head>
 <body>
+<div class="header-container">
+    <a href="index.html" class="logo-link">
+        <img src="logo.png" alt="Logo" class="logo-img">
+    </a>
     <h1>FlowTask</h1>
+</div>
     <textarea id="prompt" placeholder="Введите задачу..."></textarea>
     
         <select id="taskMode" class="mode-container">
