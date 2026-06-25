@@ -17,7 +17,7 @@
     .header-container {
         display: flex;
         align-items: center;
-        gap: 10px; /* Отступ между логотипом и текстом */
+        gap: 10px; /* Spacing between logo and text */
         margin-bottom: 15px;
     }
     
@@ -34,10 +34,10 @@
     h1 { 
         font-size: 1.2rem; 
         color: #007AFF; 
-        margin: 0; /* Убираем стандартные отступы h1 */
+        margin: 0; /* Removing standard h1 margins */
     }
 
-        /* Стили для селектора режимов */
+        /* Styles for the mode selector */
         .mode-container { margin: 15px 0; background: #1e1e1e; padding: 10px; border-radius: 10px; border: 1px solid #333; }
         .mode-container label { display: block; margin-bottom: 5px; font-size: 14px; color: #aaa; }
         select { width: 100%; padding: 12px; background: #2a2a2a; color: #fff; border: 1px solid #444; border-radius: 8px; font-size: 16px; -webkit-appearance: none; }
@@ -53,17 +53,17 @@
     </a>
     <h1>FlowTask</h1>
 </div>
-    <textarea id="prompt" placeholder="Введите задачу..."></textarea>
+    <textarea id="prompt" placeholder="Enter task..."></textarea>
     
         <select id="taskMode" class="mode-container">
-            <option value="run_ai">Только AI (Быстрый ответ / AI Worker)</option>
-            <option value="run_test_build">Тестовая сборка iOS (Без подписи / Simulator)</option>
-            <option value="run_ai_deploy">AI + Сборка и Деплой iOS (Full Deploy)</option>
+            <option value="run_ai">AI Only (Fast response / AI Worker)</option>
+            <option value="run_test_build">iOS Test Build (No signing / Simulator)</option>
+            <option value="run_ai_deploy">AI + iOS Build and Deploy (Full Deploy)</option>
         </select>
 
-    <button onclick="triggerTask()">Запустить задачу</button>
+    <button onclick="triggerTask()">Run Task</button>
     
-    <div class="status" id="status">Статус: Ожидание ввода</div>
+    <div class="status" id="status">Status: Waiting for input</div>
 
     <script>
         async function triggerTask() {
@@ -71,20 +71,20 @@
             const promptText = document.getElementById('prompt').value;
             const eventType = document.getElementById('taskMode').value;
             
-            if (!promptText) return alert('Введите задачу!');
+            if (!promptText) return alert('Enter a task!');
 
-            // Безопасно запрашиваем токен, если его еще нет в памяти браузера
+            // Safely request token if not in browser memory
             let token = localStorage.getItem('gh_token');
             if (!token) {
-                token = prompt('Введите ваш GitHub Personal Access Token:');
+                token = prompt('Enter your GitHub Personal Access Token:');
                 if (token) {
                     localStorage.setItem('gh_token', token);
                 } else {
-                    return alert('Без токена запуск невозможен!');
+                    return alert('Launch impossible without a token!');
                 }
             }
 
-            statusDiv.innerText = 'Статус: Отправка запроса...';
+            statusDiv.innerText = 'Status: Sending request...';
             
             try {
                 const response = await fetch('https://api.github.com/repos/eqlectika/flowtask/dispatches', {
@@ -95,22 +95,22 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        event_type: eventType, // Динамический выбор типа экшена
+                        event_type: eventType, // Dynamic selection of action type
                         client_payload: { prompt: promptText }
                     })
                 });
 
                 if (response.ok) {
-                    statusDiv.innerText = `Статус: Успешно! Запущен [${eventType}].`;
-                    document.getElementById('prompt').value = ''; // Очистить поле
+                    statusDiv.innerText = `Status: Success! Triggered [${eventType}].`;
+                    document.getElementById('prompt').value = ''; // Clear field
                 } else if (response.status === 401 || response.status === 404) {
-                    statusDiv.innerText = 'Статус: Ошибка авторизации. Токен сброшен.';
-                    localStorage.removeItem('gh_token'); // Удаляем неверный токен
+                    statusDiv.innerText = 'Status: Authorization error. Token reset.';
+                    localStorage.removeItem('gh_token'); // Remove invalid token
                 } else {
-                    statusDiv.innerText = 'Статус: Ошибка ' + response.status;
+                    statusDiv.innerText = 'Status: Error ' + response.status;
                 }
             } catch (error) {
-                statusDiv.innerText = 'Статус: Ошибка сети';
+                statusDiv.innerText = 'Status: Network error';
                 console.error(error);
             }
         }
