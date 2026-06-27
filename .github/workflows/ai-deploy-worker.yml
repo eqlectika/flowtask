@@ -2,7 +2,7 @@ name: AI Worker & iOS App Store Deploy
 
 on:
   repository_dispatch:
-    types: [run_ai]
+    types: [run_deploy]
 
 jobs:
   # Шаг 1: Генерация кода через Gemini (работает на дешевом Linux)
